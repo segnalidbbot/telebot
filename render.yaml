@@ -1,0 +1,7 @@
+services:
+  - type: cron
+    name: bigtelemarketing-bot
+    schedule: "0 7,13,18 * * *"
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
