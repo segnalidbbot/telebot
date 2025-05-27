@@ -35,7 +35,7 @@ async def invia_telegram():
     bot = Bot(BOT_TOKEN)
     for prodotto in prodotti:
         caption = (
-            f"*{prodotto['categoria']}*
+            f"*{prodotto['categoria']}*"
 
 "
             f"📦 {prodotto['nome']}
