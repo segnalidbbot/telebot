@@ -1,7 +1,7 @@
 services:
   - type: cron
     name: bigtelemarketing-bot
-    schedule: "0 7,13,18 * * *"
+    schedule: "0 7,13,18 * * *"  # 09:00, 15:00, 20:00 ora italiana (UTC+2)
     runtime: python
     buildCommand: pip install -r requirements.txt
     startCommand: python main.py
