@@ -1,5 +1,4 @@
 import asyncio
-import requests
 from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.constants import ParseMode
 from datetime import datetime
@@ -7,54 +6,58 @@ from datetime import datetime
 BOT_TOKEN = '7996855061:AAFz6yh7CDhtRIRkhA0vSXjBJkcTIOBHXrE'
 CHANNEL_USERNAME = '@consulenteperilrisparmio'
 
+# Offerte aggiornate da www.bigtelemarketing.com
 prodotti = [
     {
-        "nome": "📱 Smartphone Xiaomi Redmi 14C 8+256GB",
-        "prezzo": "99,99€ (da 169,00€)",
-        "link": "https://www.bigtelemarketing.com/shop/smartphone-e-cellulari"
+        "categoria": "📱 Smartphone",
+        "nome": "Xiaomi Redmi 14C 8+256GB",
+        "prezzo": "99,99€ (anziché 169,00€)",
+        "link": "https://www.bigtelemarketing.com/shop/p/xiaomi-redmi-14c",
+        "img": "https://www.bigtelemarketing.com/_files/ugd/0ca1a1_5b0f2e3b1e4a4a1cbdcb5c837e93c9f3~mv2.jpg"
     },
     {
-        "nome": "📺 Smart TV VOV 32'' HD Android",
-        "prezzo": "109,99€ (da 149,99€)",
-        "link": "https://www.bigtelemarketing.com/shop/tv-e-audio-video"
+        "categoria": "📺 TV & Audio",
+        "nome": "Smart TV VOV 32'' HD Android",
+        "prezzo": "109,99€ (anziché 149,99€)",
+        "link": "https://www.bigtelemarketing.com/shop/p/smart-tv-vov-32",
+        "img": "https://www.bigtelemarketing.com/_files/ugd/0ca1a1_e2d67b5569cf48a2b7c20714b57b51d7~mv2.jpg"
+    },
+    {
+        "categoria": "☕ Caffè & Cucina",
+        "nome": "Macchina da Caffè Faber a Cialde",
+        "prezzo": "109,99€ (anziché 149,99€)",
+        "link": "https://www.bigtelemarketing.com/shop/p/macchina-caffe-faber",
+        "img": "https://www.bigtelemarketing.com/_files/ugd/0ca1a1_4537d8f01675467a8ef9e92d124b46e0~mv2.jpg"
     }
 ]
 
-def genera_messaggio():
-    messaggio = f"🕒 *Promo del {datetime.now().strftime('%d/%m/%Y %H:%M')}*\n\n"
-    for p in prodotti:
-        messaggio += f"{p['nome']}\n💰 *{p['prezzo']}*\n👉 {p['link']}\n\n"
-    messaggio += "📲 WhatsApp: https://wa.me/393511937470\n🌐 www.bigtelemarketing.com"
-    return messaggio
-
 async def invia_telegram():
     bot = Bot(BOT_TOKEN)
-    keyboard = InlineKeyboardMarkup([
-        [InlineKeyboardButton("💬 WhatsApp", url="https://wa.me/393511937470")],
-        [InlineKeyboardButton("🛒 Visita Shop", url="https://www.bigtelemarketing.com")]
-    ])
-    await bot.send_message(
-        chat_id=CHANNEL_USERNAME,
-        text=genera_messaggio(),
-        reply_markup=keyboard,
-        parse_mode=ParseMode.MARKDOWN,
-        disable_web_page_preview=True
-    )
+    for prodotto in prodotti:
+        caption = (
+            f"*{prodotto['categoria']}*
 
-def invia_whatsapp():
-    msg = genera_messaggio().replace("*", "")
-    url = f"https://api.twilio.com/2010-04-01/Accounts/{TWILIO_SID}/Messages.json"
-    data = {
-        "To": TWILIO_TO,
-        "From": TWILIO_FROM,
-        "Body": msg
-    }
-    res = requests.post(url, data=data, auth=(TWILIO_SID, TWILIO_TOKEN))
-    print("WhatsApp:", res.status_code, res.text)
+"
+            f"📦 {prodotto['nome']}
+"
+            f"💰 *{prodotto['prezzo']}*
+"
+            f"👉 [Acquista ora]({prodotto['link']})
 
-async def main():
-    await invia_telegram()
-    invia_whatsapp()
+"
+            f"🕒 Promo automatica del {datetime.now().strftime('%d/%m/%Y %H:%M')}"
+        )
+        keyboard = InlineKeyboardMarkup([
+            [InlineKeyboardButton("💬 WhatsApp", url="https://wa.me/393511937470")],
+            [InlineKeyboardButton("🛒 Visita lo Shop", url="https://www.bigtelemarketing.com")]
+        ])
+        await bot.send_photo(
+            chat_id=CHANNEL_USERNAME,
+            photo=prodotto['img'],
+            caption=caption,
+            parse_mode=ParseMode.MARKDOWN,
+            reply_markup=keyboard
+        )
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(invia_telegram())
