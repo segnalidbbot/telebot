@@ -35,16 +35,10 @@ async def invia_telegram():
     bot = Bot(BOT_TOKEN)
     for prodotto in prodotti:
         caption = (
-            f"*{prodotto['categoria']}*"
-
-"
-            f"📦 {prodotto['nome']}
-"
-            f"💰 *{prodotto['prezzo']}*
-"
-            f"👉 [Acquista ora]({prodotto['link']})
-
-"
+            f"*{prodotto['categoria']}*\n\n"
+            f"📦 {prodotto['nome']}\n"
+            f"💰 *{prodotto['prezzo']}*\n"
+            f"👉 [Acquista ora]({prodotto['link']})\n\n"
             f"🕒 Promo automatica del {datetime.now().strftime('%d/%m/%Y %H:%M')}"
         )
         keyboard = InlineKeyboardMarkup([
