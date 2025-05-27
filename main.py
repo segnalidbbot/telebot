@@ -7,11 +7,6 @@ from datetime import datetime
 BOT_TOKEN = '7996855061:AAFz6yh7CDhtRIRkhA0vSXjBJkcTIOBHXrE'
 CHANNEL_USERNAME = '@consulenteperilrisparmio'
 
-TWILIO_SID = 'AC63154505cf21e886275887d14b3d105e'
-TWILIO_TOKEN = 'fa8b60c5387d6072bffbcce5a668e97d'
-TWILIO_FROM = 'whatsapp:+14155238886'
-TWILIO_TO = 'whatsapp:+393511937470'
-
 prodotti = [
     {
         "nome": "📱 Smartphone Xiaomi Redmi 14C 8+256GB",
